@@ -1,0 +1,135 @@
+.TreeSec .container-fluid {
+  background-color: #f8fafc;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.226);
+}
+.main-section {
+  padding: 3rem 1.5rem;
+}
+
+.main-section > .container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+}
+
+.header-section {
+  background-color: white;
+  margin-bottom: 30px;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.account-tree {
+  font-family: "Tajawal", sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+.tree-node {
+  margin: 2px 0;
+}
+
+.tree-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 5px 8px;
+  border-radius: 5px;
+  transition: background 0.2s;
+}
+
+.tree-label:hover {
+  background: #f1f1f1;
+}
+
+.toggle-icon,
+.node-icon {
+  margin: 0 5px;
+  transition: transform 0.2s;
+}
+
+.tree-children {
+  margin-right: 20px;
+  border-right: 1px dashed #ddd;
+  padding-right: 10px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.toggle-placeholder {
+  width: 16px;
+  display: inline-block;
+}
+
+.node-icon.folder {
+  color: #007bff;
+}
+
+.node-icon.file {
+  color: #6c757d;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* input */
+.SearchInput .form-control {
+  border-top-right-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* الزرار */
+.SearchInput .Xbtn {
+  border-top-left-radius: 8px !important;
+  border-bottom-left-radius: 8px !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.addbtn {
+  position: relative;
+  overflow: hidden;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-decoration: none;
+  border: 1px solid #09adce;
+  background-color: transparent;
+  color: #fff;
+  transition: color 0.5s ease, border-color 0.5s ease;
+  z-index: 1;
+}
+
+.addbtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #09adce;
+  z-index: -1;
+  transition: transform 0.5s ease;
+}
+
+.addbtn:hover::before {
+  transform: translateX(-100%);
+}
+
+.addbtn:hover {
+  background-color: transparent;
+  color: #09adce;
+  border-color: #09adce;
+}

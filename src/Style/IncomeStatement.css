@@ -1,0 +1,12 @@
+.IncomeStatementSec .container-fluid {
+  padding: 2.5rem 4rem !important;
+}
+.main-section {
+  padding: 2rem 1rem;
+}
+
+.main-section > .container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+}

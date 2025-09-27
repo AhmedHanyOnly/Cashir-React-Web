@@ -1,0 +1,14 @@
+.main-heading {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 1.5rem;
+}
+
+.main-section {
+  padding: 3rem 0;
+  min-height: calc(100vh - 46.66px - 54.75px - 68.98px);
+}
+
+a{
+  color: #000 ;
+}

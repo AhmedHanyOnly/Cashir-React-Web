@@ -1,0 +1,42 @@
+.invoicesec .container-fluid {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+.main-section {
+  padding: 4rem 1.5rem;
+}
+
+.main-section > .container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+}
+.invoicecontent {
+  background-color: white;
+  padding: 2rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.invoicesec {
+  max-width: 100% !important;
+  padding: 2px;
+}
+
+.contentRows td:not(:last-child) {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.searchbtn {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.searchinput {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}

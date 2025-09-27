@@ -1,0 +1,47 @@
+.ProgramAdditions_Sec .container-fluid {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+.main-section {
+  padding: 3rem;
+}
+
+.main-section > .container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+}
+
+.main-heading {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.btn,
+.accordion-button {
+  font-weight: 600;
+}
+
+.accordion-button {
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40rem;
+}
+.accordion-button::after {
+  margin-left: -0.1rem;
+}
+.accordion-body {
+  font-size: 15px;
+}
+.AcordOutline {
+  background-color: rgb(247 246 254);
+}
+.AccordionContent {
+  border: 1px solid rgb(219, 219, 219);
+  padding: 6px 0;
+  border-radius: 8px;
+}
+
+/* rgb(247 246 254) */

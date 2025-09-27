@@ -1,0 +1,41 @@
+.finanicalSec .container-fluid {
+  padding: 2rem 5rem 0 !important;
+}
+
+.BestSellingProductsSec .container-fluid {
+  padding: 1rem 5rem 0 !important;
+}
+.MostProfitableProductsSec .container-fluid {
+  padding: 1rem 5rem 0 !important;
+}
+
+.LateClientsSec .container-fluid {
+  padding: 0.4rem 5rem 0 !important;
+}
+
+.main-section > .container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.main-section > .container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+}
+
+.page-item:last-child .page-link {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: 8px !important;
+  border-bottom-left-radius: 8px !important;
+}
+
+.page-item:first-child .page-link {
+  border-top-right-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}

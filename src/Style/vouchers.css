@@ -1,0 +1,59 @@
+.voucherssec .container-fluid {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+.main-section {
+  padding: 3rem 3.5rem;
+}
+
+.main-section > .container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+}
+
+.addbtn {
+  position: relative;
+  overflow: hidden;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-decoration: none;
+  border: 1px solid #09adce;
+  background-color: transparent;
+  color: #fff;
+  transition: color 0.5s ease, border-color 0.5s ease;
+  z-index: 1;
+}
+
+.addbtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #09adce;
+  z-index: -1;
+  transition: transform 0.5s ease;
+}
+
+.addbtn:hover::before {
+  transform: translateX(-100%);
+}
+
+.addbtn:hover {
+  background-color: transparent;
+  color: #09adce;
+  border-color: #09adce;
+}
+
+.maintable {
+  border: 1px solid #dee2e6;
+}
+thead {
+  font-size: 16px;
+}
+tbody {
+  font-size: 15px;
+}

@@ -1,0 +1,52 @@
+.acountingsec .container-fluid {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+.main-section {
+  padding: 2rem 1rem;
+}
+
+.main-section > .container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+}
+.box-report {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.box-report:hover {
+  background: #e9ecef;
+  transform: translateY(-5px);
+}
+
+.report-icon {
+  font-size: 40px;
+  color: #17a2b8;
+  margin-top: 10px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.box-report:hover .report-icon {
+  transform: scale(1.1);
+  color: #138496;
+}
+
+.box-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.boxtitle {
+  font-size: 18px;
+  font-weight: bold;
+}
+.btntext {
+  font-size: 17px;
+}

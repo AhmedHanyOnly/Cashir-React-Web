@@ -1,0 +1,13 @@
+.modal-content {
+  font-size: 0.875rem; /* نفس حجم .fs-6 في Bootstrap */
+}
+.modal-title {
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 1rem;
+}
+
+html[dir="rtl"] .modal-header .btn-close {
+  margin-inline-start: 40rem;
+}

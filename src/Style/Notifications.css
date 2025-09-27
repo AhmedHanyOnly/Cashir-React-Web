@@ -1,0 +1,18 @@
+.notificationsSec .container-fluid {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+.main-section {
+  padding: 3rem;
+}
+
+.main-section > .container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+}
+
+.NotifcationBox {
+  font-size: 15px;
+  font-weight: 600;
+}

@@ -1,0 +1,18 @@
+.OtherVouchersSec .container-fluid {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+.main-section {
+  padding: 3rem 3.5rem;
+}
+
+.main-section > .container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+}
+
+/* .purple {
+  background-color: #8e44ad;
+  color: white;
+} */

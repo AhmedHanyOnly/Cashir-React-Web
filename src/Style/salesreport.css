@@ -1,0 +1,69 @@
+.states-box {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 0.3rem;
+  padding: 1.5rem; /* كبرنا البادينج شوية */
+  box-shadow: 0 0 9px 0 #dbdbdb;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.states-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.states-box .data-icon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.states-box .num-1,
+.states-box .num-2 {
+  font-size: 3.5rem; /* كبرنا الرقم */
+  font-weight: 700;
+}
+
+.states-box .icon-1,
+.states-box .icon-2 {
+  font-size: 3.5rem; /* كبرنا الأيقونة */
+}
+
+.states-box .text a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem; /* كبرنا النص */
+}
+
+.prog-box {
+  margin-top: 0.8rem;
+}
+
+.prog {
+  background: #eee;
+  height: 10px; /* كبرنا ارتفاع شريط التقدم */
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.prog-1 {
+  display: block;
+  width: 70%;
+  height: 100%;
+  background: #03a9f4; /* الأزرق زي ما طلبت */
+}
+
+.prog-2 {
+  display: block;
+  width: 30%;
+  height: 100%;
+  background: #ff835c; /* البرتقالي زي ما طلبت */
+}
+
+.backBtn {
+  margin-right: 58rem;
+  cursor: pointer;
+}

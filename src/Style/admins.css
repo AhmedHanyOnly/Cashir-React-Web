@@ -1,0 +1,27 @@
+.adminsSec .container-fluid {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+.main-section {
+  padding: 2rem;
+}
+
+.main-section > .container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+}
+
+.box-content {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+thead {
+  font-size: 15px;
+  font-weight: 700;
+}
+tbody {
+  font-size: 14px;
+  font-weight: 500;
+}
