@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/React-Cashier-Website/",
+  base: "/Cashir-React-Web/",
   optimizeDeps: {
     esbuildOptions: {
       define: {
