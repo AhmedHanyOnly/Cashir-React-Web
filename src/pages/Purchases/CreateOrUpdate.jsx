@@ -4,7 +4,7 @@ import { FaTrash, FaPlus } from "react-icons/fa";
 import { createPurchases, updatePurchases } from "../../api/modules/purchases";
 import { toast } from "sonner";
 import "../../Style/CreatePurchase.css";
-import { useSelector } from "../../hooks/useSeletor";
+import { useSelector } from "../../hooks/useSelector";
 import Select from "react-select";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Loader } from "../../components/Loader";

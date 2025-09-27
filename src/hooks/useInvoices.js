@@ -1,9 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getInvoices,
-  createInvoice,
-  updateInvoice,
-  deleteInvoice,
+  createInvoices,
+  updateInvoices,
+  deleteInvoices,
 } from "../api/modules/invoices"; 
 
 export function useInvoices() {
@@ -16,17 +16,17 @@ export function useInvoices() {
   });
 
   const createMutation = useMutation({
-    mutationFn: createInvoice,
+    mutationFn: createInvoices,
     onSuccess: () => queryInvoices.invalidateQueries(["invoices"]),
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => updateInvoice(id, data),
+    mutationFn: ({ id, data }) => updateInvoices(id, data),
     onSuccess: () => queryInvoices.invalidateQueries(["invoices"]),
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => deleteInvoice(id),
+    mutationFn: (id) => deleteInvoices(id),
     onSuccess: () => queryInvoices.invalidateQueries(["invoices"]),
   });
 

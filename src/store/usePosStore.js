@@ -1,50 +1,26 @@
 import { create } from "zustand";
 import { toast } from "sonner";
 
-const productsData = [
-  {
-    id: 1,
-    name: "شكلاته مي ستوري 22 جرام",
-    barcode: "12345",
-    price: 1.5,
-    category: "شوكولاتة",
-
-  },
-  {
-    id: 2,
-    name: "شكلاته مي ستوري شد 12",
-    barcode: "23456",
-    price: 17,
-    category: "شوكولاتة",
-
-  },
-  {
-    id: 3,
-    name: "حلوى جالكسي 50 جرام",
-    barcode: "34567",
-    price: 3.5,
-    category: "حلوى",
-
-  },
-  {
-    id: 4,
-    name: "شوكولاتة نوتيلا 100 جرام",
-    barcode: "45678",
-    price: 12,
-    category: "شوكولاتة",
-
-  },
-];
-
 export const useCartStore = create((set, get) => ({
-  products: productsData,
+  products: [],
   searchTerm: "",
   cart: [],
   selectedClient: null,
   selectedCategory: "الكل",
 
+  setProducts: (products) => {
+    // تأكد إن كل منتج له price
+    const fixedProducts = products.map((p) => ({
+      ...p,
+      price: typeof p.price === "number" ? p.price : parseFloat(p.price) || 0,
+      category: p.category || { id: 0, name: "بدون فئة" }, // للتأكد من 
+      
+    }));
+    set({ products: fixedProducts });
+  },
+
   setSearchTerm: (term) => set({ searchTerm: term }),
-  setCategory: (category) => set({ selectedCategory: category }),
+  setCategory: (category) => set({ selectedCategory: category.name }),
 
   filteredProducts: () => {
     const term = get().searchTerm.toLowerCase();
@@ -52,19 +28,21 @@ export const useCartStore = create((set, get) => ({
     return get().products.filter(
       (p) =>
         (p.name.toLowerCase().includes(term) || p.barcode.includes(term)) &&
-        (category === "الكل" || p.category === category)
+        (category === "الكل" || p.category.name === category)
     );
   },
 
   addToCart: (product) => {
     const cart = [...get().cart];
     const index = cart.findIndex((item) => item.id === product.id);
+    const price = typeof product.price === "number" ? product.price : 0;
+
     if (index >= 0) {
       cart[index].qty += 1;
       set({ cart });
       toast.success(`تم زيادة الكمية: ${product.name} إلى ${cart[index].qty}`);
     } else {
-      cart.push({ ...product, qty: 1 });
+      cart.push({ ...product, qty: 1, price });
       set({ cart });
       toast.success(`تم إضافة المنتج: ${product.name}`);
     }
@@ -77,7 +55,7 @@ export const useCartStore = create((set, get) => ({
     if (index >= 0) {
       if (product.qty && product.qty < 0) {
         if (cart[index].qty > 1) {
-          cart[index].qty += product.qty; 
+          cart[index].qty += product.qty;
           set({ cart });
           toast(`تم تقليل الكمية: ${cart[index].name} إلى ${cart[index].qty}`);
         } else {
@@ -92,23 +70,17 @@ export const useCartStore = create((set, get) => ({
       }
     }
   },
-  removeItemCart: (id) => {
-    const cart = [...get().cart];
-    const index = cart.findIndex((item) => item.id === id);
-    if (index >= 0) {
-      const productName = cart[index].name;
-      cart.splice(index, 1);
-      set({ cart });
-      toast.error(`تم إزالة المنتج: ${productName}`);
-    }
-  },
 
   removeProductsCart: () => {
     set({ cart: [] });
     toast.error(`تم مسح السلة`);
   },
 
-  total: () => get().cart.reduce((sum, item) => sum + item.price * item.qty, 0),
+  total: () =>
+    get().cart.reduce(
+      (sum, item) => sum + (item.price ?? 0) * (item.qty ?? 0),
+      0
+    ),
 
   setClient: (client) => {
     set({ selectedClient: client });

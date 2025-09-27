@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Style/pos.css";
 import { useCartStore } from "../store/usePosStore";
 import {
@@ -17,8 +17,18 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { MdPayment } from "react-icons/md";
-import no_image from "../../public/assets/no-image.jpg"
+import no_image from "/assets/no-image.jpg";
+import { Loader } from "../components/Loader";
+import { useSelector } from "../hooks/useSelector";
+import { useProducts } from "../hooks/useProducts";
+import { useInvoices } from "../hooks/useInvoices";
+import { toast } from "sonner";
+import { useSettings } from "../hooks/useSettings";
+
 export default function POS() {
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paidAmount, setPaidAmount] = useState(0);
+
   const {
     cart,
     filteredProducts,
@@ -31,23 +41,86 @@ export default function POS() {
     setClient,
     selectedCategory,
     setCategory,
-    removeItemCart,
     removeProductsCart,
+    setProducts,
   } = useCartStore();
 
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
-  const clients = [
-    { id: 1, name: "احمد رجب", phone: "0000" },
-    { id: 2, name: "محمد خالد1", phone: "1111" },
-    { id: 3, name: "عميل نقدي", phone: "111" },
-    { id: 4, name: "عميل نقدي", phone: "01" },
-    { id: 5, name: "عميل نقدي", phone: "011" },
-    { id: 6, name: "عميل نقدي", phone: "166546" },
-    { id: 7, name: "تجريبي", phone: "012012012" },
-  ];
-  const categories = ["الكل", "شوكولاتة", "حلوى"];
   const navigate = useNavigate();
+  const { createMutation } = useInvoices();
+
+  const { clientsQuery, categoriesQuery, paymentMethodsQuery } = useSelector();
+  const { productsQuery } = useProducts();
+  const { data: taxData, isLoading: loadingTax } = useSettings();
+
+  const clients = clientsQuery.data?.data || [];
+  const categories = [{ name: "الكل" }, ...(categoriesQuery.data?.data || [])];
+
+  // const products = productsQuery.data?.data || [];
+  const paymentMethods = paymentMethodsQuery.data?.data || [];
+  const taxItem = taxData?.data?.find((item) => item.key === "tax");
+  const taxValue = taxItem ? taxItem.value : 0;
+
+  useEffect(() => {
+    if (productsQuery.data) {
+      setProducts(productsQuery.data.data);
+      console.log(productsQuery.data.data);
+    }
+  }, [productsQuery.data]);
+
+  const handlePayment = async () => {
+    if (!selectedClient) return toast.error("اختر عميل أولاً");
+    if (!paymentMethod) return toast.error("اختر طريقة الدفع");
+    if (cart.length === 0) return toast.error("السلة فارغة");
+
+    try {
+      const subtotal = total(); 
+      const taxRate = taxValue ?? 0; 
+      const taxAmount = (subtotal * taxRate) / 100; 
+      const totalAmount = subtotal + taxAmount; 
+
+      const invoicePayload = {
+        client_id: selectedClient.id,
+        subtotal,
+        tax: taxAmount,
+        discount_type: "fixed",
+        discount_value: 0,
+        total: totalAmount,
+        date: new Date().toISOString().split("T")[0],
+        notes: "",
+        items: cart.map((item) => ({
+          item_id: item.id,
+          qty: item.qty,
+          unit_price: item.price,
+          line_total: item.qty * item.price,
+        })),
+        payments: [
+          {
+            payment_method_id: paymentMethod,
+            amount: paidAmount || totalAmount,
+          },
+        ],
+      };
+
+      console.log("Invoice Payload:", invoicePayload);
+      await createMutation.mutateAsync(invoicePayload);
+      toast.success("تم إنشاء الفاتورة بنجاح");
+      // removeProductsCart();
+      // setPaymentMethod("");
+      // setPaidAmount(0);
+    } catch (error) {
+      toast.error(error.response?.data?.message);
+      console.error(error);
+    }
+  };
+
+  if (
+    clientsQuery.isLoading ||
+    categoriesQuery.isLoading ||
+    productsQuery.isLoading ||
+    paymentMethodsQuery.isLoading ||
+    loadingTax
+  )
+    return <Loader />;
 
   return (
     <div>
@@ -148,15 +221,15 @@ export default function POS() {
                 <h6 className="me-3 mb-0">
                   <i className="fas fa-tags ms-2"></i>الفئات:
                 </h6>
-                {categories.map((cat) => (
+                {categories.map((cat, index) => (
                   <div
-                    key={cat}
+                    key={index}
                     className={`category-chip ${
-                      selectedCategory === cat ? "active" : ""
+                      selectedCategory === cat.name ? "active" : ""
                     }`}
                     onClick={() => setCategory(cat)}
                   >
-                    {cat}
+                    {cat.name}
                   </div>
                 ))}
               </div>
@@ -187,11 +260,8 @@ export default function POS() {
                           className={`card product-card h-100 cursor-pointer ${
                             cartItem ? "border-primary" : ""
                           }`}
-                          style={{boxShadow:"1px 1px 5px #ccc"}}
-                          onClick={() => {
-                            addToCart(product);
-                            setSelectedProduct(product);
-                          }}
+                          style={{ boxShadow: "1px 1px 5px #ccc" }}
+                          onClick={() => addToCart(product)}
                         >
                           <div className="card-body text-center d-flex flex-column justify-content-center">
                             {product.image ? (
@@ -200,37 +270,38 @@ export default function POS() {
                                 alt={product.name}
                                 className="mb-2"
                                 style={{
-                                  width: "50px",
-                                  height: "50px",
+                                  width: "100%",
+                                  height: "150px",
                                   objectFit: "cover",
                                 }}
                               />
                             ) : (
                               <img
-                              src={no_image}
-                              alt={product.name}
-                              className="mb-2"
-                              style={{
-                                width: "100px",
-                                height: "50px",
-                                objectFit: "cover",
-                                margin: "0 auto",
-
-                              }}
-                            />
+                                src={no_image}
+                                alt={product.name}
+                                className="mb-2"
+                                style={{
+                                  width: "100%",
+                                  height: "150px",
+                                  objectFit: "cover",
+                                  margin: "0 auto",
+                                }}
+                              />
                             )}
                             <h6 className="card-title mb-2">{product.name}</h6>
+                            <h6 className="card-title mb-2">{product.category.name}</h6>
                             <span
                               className="badge arabic-number"
-                              style={{ backgroundColor: "rgb(9, 173, 206)" }}
+                              style={{
+                                backgroundColor: "rgb(9, 173, 206)",
+                              }}
                             >
-                              ر.س{product.price.toFixed(2)}
+                              ر.س{(product.price ?? 0).toFixed(2)}
                             </span>
                             <span className="badge bg-secondary mt-2 arabic-number">
-                              الكمية: {product.qty || "غير محددة"}
+                              الكمية: {product.qty ?? "غير محددة"}
                             </span>
 
-                            {/* Show quantity controls when product is in cart */}
                             {cartItem && (
                               <div
                                 className="quantity-controls mt-8"
@@ -275,40 +346,59 @@ export default function POS() {
 
           {/* Right: Cart */}
           <div className="col-md-4 cart-section">
-            {/* Cart Items */}
-
-            {/* Cart Footer ثابت */}
             <div className="cart-footer">
-              {/* Total Section */}
               <div className="total-section mb-3">
-                <div className="d-flex justify-content-between mb-2">
-                  <span className="arabic-number">
-                    {total().toFixed(2)} ج.م
-                  </span>
-                  <span>المجموع الفرعي:</span>
-                </div>
-                <hr />
-                <div className="d-flex justify-content-between">
-                  <h5 className="text-primary arabic-number">
-                    {total().toFixed(2)} ج.م
-                  </h5>
-                  <h5>الإجمالي:</h5>
+                <div className="total-section mb-3">
+                  {/** حساب الضريبة */}
+                  {(() => {
+                    const subtotal = total() ?? 0;
+                    const taxAmount = (subtotal * taxValue) / 100;
+                    const totalAmount = subtotal + taxAmount;
+                    return (
+                      <>
+                        <div className="d-flex justify-content-between mb-2">
+                          <span className="arabic-number">
+                            {subtotal.toFixed(2)} ج.م
+                          </span>
+                          <span>المجموع الفرعي:</span>
+                        </div>
+
+                        <div className="d-flex justify-content-between mb-2">
+                          <span className="arabic-number">
+                            {taxAmount.toFixed(2)} ج.م
+                          </span>
+                          <span>الضريبة ({taxValue}%) :</span>
+                        </div>
+                        <hr />
+                        <div className="d-flex justify-content-between">
+                          <h5 className="text-primary arabic-number">
+                            {totalAmount.toFixed(2)} ج.م
+                          </h5>
+                          <h5>الإجمالي:</h5>
+                        </div>
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
 
-              {/* Payment Section */}
               <div className="payment-section">
                 <h6>
                   <MdPayment /> الدفع
                 </h6>
                 <div className="mb-3">
                   <label className="form-label">طريقة الدفع:</label>
-                  <select className="form-select form-select-sm">
+                  <select
+                    className="form-select form-select-sm"
+                    value={paymentMethod}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                  >
                     <option value="">اختر الطريقة...</option>
-                    <option value="1">نقدا</option>
-                    <option value="2">تحويل بنكي</option>
-                    <option value="3">شبكة</option>
-                    <option value="4">قيمة غير محددة</option>
+                    {paymentMethods.map((method) => (
+                      <option key={method.id} value={method.id}>
+                        {method.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="mb-3">
@@ -316,12 +406,13 @@ export default function POS() {
                   <input
                     type="number"
                     className="form-control"
-                    step="0.01"
                     min="0"
+                    value={(total() ?? 0).toFixed(2)}
+                    onChange={(e) => setPaidAmount(parseFloat(e.target.value))}
                   />
                 </div>
                 <div className="d-grid gap-2">
-                  <button className="btn btn-success" disabled>
+                  <button className="btn btn-success" onClick={handlePayment}>
                     <i className="fas fa-check ms-2" />
                     معالجة الدفع
                   </button>

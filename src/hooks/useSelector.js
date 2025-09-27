@@ -6,7 +6,7 @@ import {
   paymentMethodsSelect,
   suppliersSelect,
   productsSelect,
-} from "../api/modules/seletor";
+} from "../api/modules/selector";
 
 export function useSelector() {
   const accountsQuery = useQuery({
